@@ -1,18 +1,14 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
+{pkgs, ...}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware.nix
 
-{ pkgs, ... }:
-
-{
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware.nix
-
-      # allow the use of unstable.[package] in the configuration
-      ./unstable.nix
-    ];
+    # allow the use of unstable.[package] in the configuration
+    ./unstable.nix
+  ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -46,7 +42,7 @@
   services = {
     printing.enable = true;
     thermald.enable = true;
-    
+
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -56,8 +52,8 @@
 
     tailscale = {
       enable = true;
-      extraUpFlags = [ "--ssh" ];
-      extraSetFlags = [ "--operator=diced" ];
+      extraUpFlags = ["--ssh"];
+      extraSetFlags = ["--operator=diced"];
     };
 
     xserver = {
@@ -92,7 +88,7 @@
     users.diced = {
       isNormalUser = true;
       description = "diced";
-      extraGroups = [ "networkmanager" "wheel" ];
+      extraGroups = ["networkmanager" "wheel"];
     };
   };
 
@@ -119,7 +115,7 @@
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
       noto-fonts-emoji
-      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+      (nerdfonts.override {fonts = ["JetBrainsMono"];})
     ];
   };
 

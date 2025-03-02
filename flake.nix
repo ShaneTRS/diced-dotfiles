@@ -10,7 +10,14 @@
     hyprswitch.url = "github:h3rmt/hyprswitch/release";
   };
 
-  outputs = inputs@{ self, hyprswitch, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager }: {
+  outputs = inputs @ {
+    self,
+    hyprswitch,
+    nixpkgs,
+    nixpkgs-unstable,
+    nixos-hardware,
+    home-manager,
+  }: {
     nixosConfigurations = {
       nixos-surface = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -25,10 +32,28 @@
 
           {
             home-manager = {
-              users.diced = import ./modules/home-manager;
+              users.diced = {
+                imports = [./modules/home-manager];
+                tomato = {
+                  enable = true;
+                  hyprland = {
+                    enable = true;
+                    waybar.enable = true;
+                    swaync.enable = true;
+                    wlogout.enable = true;
+                    hyprlock.enable = true;
+                    hypridle.enable = true;
+                    hyprpaper.enable = true;
+                    udiskie.enable = true;
+                  };
+                };
+              };
               useUserPackages = true;
               useGlobalPkgs = true;
-              extraSpecialArgs = { inherit self; };
+              extraSpecialArgs = {
+                hyprlandEnable = true;
+                inherit self;
+              };
             };
           }
         ];
